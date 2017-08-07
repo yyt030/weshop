@@ -1,0 +1,7 @@
+.idea/*
+migrations/*
+*.sqlite
+venv/
+*.log
+*.sh
+__pycache__/
