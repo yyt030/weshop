@@ -4,10 +4,17 @@
 __author__ = 'yueyt'
 
 from flask import Blueprint
+from flask.views import MethodView
 
 bp = Blueprint('wechatapi', __name__)
 
 
-@bp.route('/')
-def index():
-    return 'hello world'
+class WechatApi(MethodView):
+    def get(self):
+        return 'this is get test'
+
+    def post(self):
+        return 'this is post test'
+
+
+bp.add_url_rule(rule='/', view_func=WechatApi.as_view('wechatapi'))
