@@ -3,9 +3,12 @@
 
 __author__ = 'yueyt'
 
-from flask import Flask
+from flask import Flask, request, abort
+from flask_sqlalchemy import SQLAlchemy
 
 from config import config
+
+db = SQLAlchemy()
 
 
 def create_app(config_name):
@@ -13,31 +16,32 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
+    # init app
+    db.init_app(app)
+
     # blueprint
     register_blueprint(app)
 
     # error handle
-    # register_error_handle(app)
+    register_error_handle(app)
     return app
 
 
 def register_error_handle(app):
-    @app.exception(404)
-    def ignore_404(request, exception):
-        # return text("Yep, I totally found the page: {}".format(request.url))
-        pass
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return "Yep, I totally not found the page: {}".format(request.url)
 
-    @app.exception(500)
-    def ignore_500(request, exception):
-        # return 505
-        pass
+    @app.errorhandler(500)
+    def inter_error(error):
+        abort(500)
 
     pass
 
 
 def register_blueprint(app):
-    from weapp.controllers import site, wechatapi
+    from weapp.controllers import site, api
     app.register_blueprint(site.bp, url_prefix='/')
-    app.register_blueprint(wechatapi.bp, url_prefix='/interface')
+    app.register_blueprint(api.bp, url_prefix='/interface/')
 
     pass
