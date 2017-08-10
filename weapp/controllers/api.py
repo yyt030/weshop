@@ -5,12 +5,14 @@ __author__ = 'yueyt'
 
 from flask import Blueprint, request, current_app
 from flask.views import MethodView
-
 from wechatpy import parse_message
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 from wechatpy.replies import TextReply, EmptyReply
 from wechatpy.utils import check_signature
+
+from weapp import db
+from weapp.models.users import User
 
 bp = Blueprint('api', __name__)
 
@@ -48,7 +50,6 @@ class WechatApi(MethodView):
             print('>>> {},{}'.format(request.args, '验证异常'))
             # return '验证异常'
             return 'Shutting down...'
-
         # 公众号被动接受消息
         if len(request.data) == 0:
             print('>>>', '接收到空字节')
@@ -72,43 +73,46 @@ class WechatApi(MethodView):
                 print('>>> 加密处理异常')
                 return ''
             else:
-                xml = get_resp_message(decrypted_xml)
+                xml = self.get_resp_message(decrypted_xml)
                 crypto = WeChatCrypto(current_app.config['WECHAT_TOKEN'], current_app.config['WECHAT_ENCODING_AES_KEY'],
                                       current_app.config['WECHAT_APPID'])
                 encrypted_xml = crypto.encrypt_message(xml, nonce, timestamp)
                 return encrypted_xml
         else:
             # 纯文本方式
-            return get_resp_message(request.data)
+            return self.get_resp_message(request.data)
 
+    @staticmethod
+    def get_resp_message(source_msg):
+        request_msg = parse_message(source_msg)
+        request_msg_type = request_msg.type
+        print('>>> request_msg_type[{}],request_msg[{}]'.format(request_msg_type, request_msg))
+        # 根据消息类型解析
+        if request_msg_type == 'text':
+            reply = TextReply(content='{}'.format(request_msg.content), message=request_msg)
+        elif request_msg_type == 'image':
+            reply = TextReply(content='{}'.format('hello'), message=request_msg)
+        elif request_msg_type == 'voice':
+            if not request_msg.recognition:
+                reply = TextReply(content='没听清楚啊，再说一遍，亲', message=request_msg)
+            else:
+                reply = TextReply(content='{}'.format(request_msg.recognition), message=request_msg)
+        elif request_msg_type == 'event':
+            request_msg_event = request_msg.event
+            if request_msg_event == 'subscribe':
+                user = User(openid=request.args.get('openid'))
+                db.session.save(user)
 
-def get_resp_message(source_msg):
-    request_msg = parse_message(source_msg)
-    request_msg_type = request_msg.type
-    print('>>> request_msg_type[{}],request_msg[{}]'.format(request_msg_type, request_msg))
-    # 根据消息类型解析
-    if request_msg_type == 'text':
-        reply = TextReply(content='{}'.format(request_msg.content), message=request_msg)
-    elif request_msg_type == 'image':
-        reply = TextReply(content='{}'.format('hello'), message=request_msg)
-    elif request_msg_type == 'voice':
-        if not request_msg.recognition:
-            reply = TextReply(content='没听清楚啊，再说一遍，亲', message=request_msg)
-        else:
-            reply = TextReply(content='{}'.format(request_msg.recognition), message=request_msg)
-    elif request_msg_type == 'event':
-        request_msg_event = request_msg.event
-        if request_msg_event == 'subscribe':
-            reply = TextReply(content=current_app.config['WELCOME_MSG'], message=request_msg)
-        elif request_msg_event == 'unsubscribe':
-            reply = TextReply(content='多谢关注！', message=request_msg)
+                reply = TextReply(content=current_app.config['WELCOME_MSG'], message=request_msg)
+            elif request_msg_event == 'unsubscribe':
+                reply = TextReply(content='多谢关注！', message=request_msg)
+            else:
+                reply = EmptyReply()
         else:
             reply = EmptyReply()
-    else:
-        reply = EmptyReply()
 
-    # 返回xml报文
-    return reply.render()
+        # 返回xml报文
+        return reply.render()
 
 
 bp.add_url_rule(rule='/', view_func=WechatApi.as_view('api'))
