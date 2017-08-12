@@ -14,7 +14,6 @@ from wechatpy.utils import check_signature
 
 from config import WECHAT_TOKEN, WECHAT_APPID, WECHAT_ENCODING_AES_KEY, WECHAT_WELCOME_MSG, WECHAT_SECRET
 from weapp import db
-from weapp.models.users import User
 
 bp = Blueprint('api', __name__)
 
@@ -99,7 +98,10 @@ def get_resp_message(source_msg):
     elif request_msg_type == 'event':
         request_msg_event = request_msg.event
         if request_msg_event == 'subscribe':
-            get_user_info_by_openid(openid)
+            # 用户关注后，登录用户信息
+            user = get_user_info_by_openid(openid)
+            db.session.add(user)
+            db.session.commit()
 
             reply = TextReply(content=WECHAT_WELCOME_MSG, message=request_msg)
         elif request_msg_event == 'unsubscribe':
@@ -118,12 +120,6 @@ def get_user_info_by_openid(openid):
     user = client.user.get(openid)
     print('>>>', user)
     return user
-
-
-def add_user(wechat_user):
-    user = User(openid='', )
-    db.session.add(user)
-    db.session.commit()
 
 
 # 添加路由规则
