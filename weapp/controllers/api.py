@@ -3,6 +3,8 @@
 
 __author__ = 'yueyt'
 
+import json
+
 from flask import Blueprint, request
 from flask.views import MethodView
 from wechatpy import WeChatClient
@@ -101,10 +103,11 @@ def get_resp_message(source_msg):
         if request_msg_event == 'subscribe':
             # 用户关注后，登记用户信息
             try:
-                user = get_user_info_by_openid(openid)
+                user_json = get_user_info_by_openid(openid)
             except:
                 print('>>>', '获取用户信息失败')
             else:
+                user = json.loads(user_json)
                 save_wechat_user(user)
 
             reply = TextReply(content=WECHAT_WELCOME_MSG, message=request_msg)
