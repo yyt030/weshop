@@ -3,8 +3,6 @@
 
 __author__ = 'yueyt'
 
-import json
-
 from flask import Blueprint, request
 from flask.views import MethodView
 from wechatpy import WeChatClient
@@ -103,12 +101,12 @@ def get_resp_message(source_msg):
         if request_msg_event == 'subscribe':
             # 用户关注后，登记用户信息
             try:
-                user_json = get_user_info_by_openid(openid)
+                client = WeChatClient(WECHAT_APPID, WECHAT_SECRET)
+                user_json = client.user.get(openid)
             except:
                 print('>>>', '获取用户信息失败')
             else:
-                user = json.loads(user_json)
-                save_wechat_user(user)
+                save_wechat_user(user_json)
 
             reply = TextReply(content=WECHAT_WELCOME_MSG, message=request_msg)
         elif request_msg_event == 'unsubscribe':
@@ -122,29 +120,27 @@ def get_resp_message(source_msg):
     return reply.render()
 
 
-def get_user_info_by_openid(openid):
-    client = WeChatClient(WECHAT_APPID, WECHAT_SECRET)
-    user = client.user.get(openid)
-    print('>>>', user)
-    return user
-
-
 def save_wechat_user(wechat_user):
     user = User()
+    user.openid = wechat_user.get('openid')
 
-    user.openid = wechat_user.openid
-    user.nickname = wechat_user.nickname
-    user.subscribe = wechat_user.subscribe
-    user.sex = wechat_user.sex
-    user.language = wechat_user.language
-    user.city = wechat_user.city
-    user.province = wechat_user.province
-    user.country = wechat_user.country
-    user.headimgurl = wechat_user.headimgurl
-    user.subscribe_time = wechat_user.subscribe_time
-    user.remark = wechat_user.remark
-    user.groupid = wechat_user.groupid
-    user.tagid_list = ','.join(wechat_user.tagid_list)
+    # 该公众号openid 唯一
+    isexist = User.query.filter_by(openid=wechat_user.get('openid')).first()
+    if isexist:
+        return ''
+
+    user.nickname = wechat_user.get('nickname')
+    user.subscribe = wechat_user.get('subscribe')
+    user.sex = wechat_user.get('sex')
+    user.language = wechat_user.get('language')
+    user.city = wechat_user.get('city')
+    user.province = wechat_user.get('province')
+    user.country = wechat_user.get('country')
+    user.headimgurl = wechat_user.get('headimgurl')
+    user.subscribe_time = wechat_user.get('subscribe_time')
+    user.remark = wechat_user.get('remark')
+    user.groupid = wechat_user.get('groupid')
+    user.tagid_list = ','.join(wechat_user.get('tagid_list'))
 
     db.session.add(user)
     db.session.commit()
