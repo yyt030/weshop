@@ -84,6 +84,7 @@ class WechatApi(MethodView):
 def get_resp_message(source_msg):
     request_msg = parse_message(source_msg)
     request_msg_type = request_msg.type
+    openid = request.args.get('openid', '')
     print('>>> request_msg_type[{}],request_msg[{}]'.format(request_msg_type, request_msg))
     # 根据消息类型解析
     if request_msg_type == 'text':
@@ -98,8 +99,9 @@ def get_resp_message(source_msg):
     elif request_msg_type == 'event':
         request_msg_event = request_msg.event
         if request_msg_event == 'subscribe':
+            get_user_info_by_openid(openid)
 
-            reply = TextReply(WECHAT_WELCOME_MSG, message=request_msg)
+            reply = TextReply(content=WECHAT_WELCOME_MSG, message=request_msg)
         elif request_msg_event == 'unsubscribe':
             reply = TextReply(content='多谢关注！', message=request_msg)
         else:

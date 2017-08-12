@@ -3,11 +3,12 @@
 
 __author__ = 'yueyt'
 
-from flask import Blueprint
+from flask import Blueprint,request
 
 bp = Blueprint('site', __name__)
 
 
-@bp.route('/')
+@bp.route('/',methods=['GET','POST'])
 def index():
+    print('>>>>', request.data)
     return 'hello world'
