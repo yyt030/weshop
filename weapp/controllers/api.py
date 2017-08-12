@@ -3,14 +3,16 @@
 
 __author__ = 'yueyt'
 
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request
 from flask.views import MethodView
+from wechatpy import WeChatClient
 from wechatpy import parse_message
 from wechatpy.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException, InvalidAppIdException
 from wechatpy.replies import TextReply, EmptyReply
 from wechatpy.utils import check_signature
 
+from config import WECHAT_TOKEN, WECHAT_APPID, WECHAT_ENCODING_AES_KEY, WECHAT_WELCOME_MSG, WECHAT_SECRET
 from weapp import db
 from weapp.models.users import User
 
@@ -26,7 +28,7 @@ class WechatApi(MethodView):
         echostr = request.args.get('echostr', '')
 
         try:
-            check_signature(current_app.config['WECHAT_TOKEN'], signature, timestamp, nonce)
+            check_signature(WECHAT_TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             # 处理异常情况或忽略
             print('>>> {},{}'.format(request.args, '验证异常'))
@@ -44,7 +46,7 @@ class WechatApi(MethodView):
         msg_signature = request.args.get('msg_signature', '')
         encrypt_type = request.args.get('encrypt_type', '')
         try:
-            check_signature(current_app.config['WECHAT_TOKEN'], signature, timestamp, nonce)
+            check_signature(WECHAT_TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             # 处理异常情况或忽略
             print('>>> {},{}'.format(request.args, '验证异常'))
@@ -54,13 +56,10 @@ class WechatApi(MethodView):
         if len(request.data) == 0:
             print('>>>', '接收到空字节')
             return ''
-
+        print('>>> [{}]'.format(request.data))
         # 加密方式
         if encrypt_type == 'aes':
-            crypto = WeChatCrypto(current_app.config[
-                                      'WECHAT_TOKEN'], current_app.config['WECHAT_ENCODING_AES_KEY'],
-                                  current_app.config[
-                                      'WECHAT_APPID'])
+            crypto = WeChatCrypto(WECHAT_TOKEN, WECHAT_ENCODING_AES_KEY, WECHAT_APPID)
             try:
                 decrypted_xml = crypto.decrypt_message(
                     request.data,
@@ -73,46 +72,57 @@ class WechatApi(MethodView):
                 print('>>> 加密处理异常')
                 return ''
             else:
-                xml = self.get_resp_message(decrypted_xml)
-                crypto = WeChatCrypto(current_app.config['WECHAT_TOKEN'], current_app.config['WECHAT_ENCODING_AES_KEY'],
-                                      current_app.config['WECHAT_APPID'])
+                xml = get_resp_message(decrypted_xml)
+                crypto = WeChatCrypto(WECHAT_TOKEN, WECHAT_ENCODING_AES_KEY, WECHAT_APPID)
                 encrypted_xml = crypto.encrypt_message(xml, nonce, timestamp)
                 return encrypted_xml
         else:
             # 纯文本方式
-            return self.get_resp_message(request.data)
+            return get_resp_message(request.data)
 
-    @staticmethod
-    def get_resp_message(source_msg):
-        request_msg = parse_message(source_msg)
-        request_msg_type = request_msg.type
-        print('>>> request_msg_type[{}],request_msg[{}]'.format(request_msg_type, request_msg))
-        # 根据消息类型解析
-        if request_msg_type == 'text':
-            reply = TextReply(content='{}'.format(request_msg.content), message=request_msg)
-        elif request_msg_type == 'image':
-            reply = TextReply(content='{}'.format('hello'), message=request_msg)
-        elif request_msg_type == 'voice':
-            if not request_msg.recognition:
-                reply = TextReply(content='没听清楚啊，再说一遍，亲', message=request_msg)
-            else:
-                reply = TextReply(content='{}'.format(request_msg.recognition), message=request_msg)
-        elif request_msg_type == 'event':
-            request_msg_event = request_msg.event
-            if request_msg_event == 'subscribe':
-                user = User(openid=request.args.get('openid'))
-                db.session.save(user)
 
-                reply = TextReply(content=current_app.config['WELCOME_MSG'], message=request_msg)
-            elif request_msg_event == 'unsubscribe':
-                reply = TextReply(content='多谢关注！', message=request_msg)
-            else:
-                reply = EmptyReply()
+def get_resp_message(source_msg):
+    request_msg = parse_message(source_msg)
+    request_msg_type = request_msg.type
+    print('>>> request_msg_type[{}],request_msg[{}]'.format(request_msg_type, request_msg))
+    # 根据消息类型解析
+    if request_msg_type == 'text':
+        reply = TextReply(content='{}'.format(request_msg.content), message=request_msg)
+    elif request_msg_type == 'image':
+        reply = TextReply(content='{}'.format('hello'), message=request_msg)
+    elif request_msg_type == 'voice':
+        if not request_msg.recognition:
+            reply = TextReply(content='没听清楚啊，再说一遍，亲', message=request_msg)
+        else:
+            reply = TextReply(content='{}'.format(request_msg.recognition), message=request_msg)
+    elif request_msg_type == 'event':
+        request_msg_event = request_msg.event
+        if request_msg_event == 'subscribe':
+
+            reply = TextReply(WECHAT_WELCOME_MSG, message=request_msg)
+        elif request_msg_event == 'unsubscribe':
+            reply = TextReply(content='多谢关注！', message=request_msg)
         else:
             reply = EmptyReply()
+    else:
+        reply = EmptyReply()
 
-        # 返回xml报文
-        return reply.render()
+    # 返回xml报文
+    return reply.render()
 
 
+def get_user_info_by_openid(openid):
+    client = WeChatClient(WECHAT_APPID, WECHAT_SECRET)
+    user = client.user.get(openid)
+    print('>>>', user)
+    return user
+
+
+def add_user(wechat_user):
+    user = User(openid='', )
+    db.session.add(user)
+    db.session.commit()
+
+
+# 添加路由规则
 bp.add_url_rule(rule='/', view_func=WechatApi.as_view('api'))
