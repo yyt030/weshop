@@ -14,6 +14,7 @@ from wechatpy.utils import check_signature
 
 from config import WECHAT_TOKEN, WECHAT_APPID, WECHAT_ENCODING_AES_KEY, WECHAT_WELCOME_MSG, WECHAT_SECRET
 from weapp import db
+from weapp.models.user import User
 
 bp = Blueprint('api', __name__)
 
@@ -98,10 +99,13 @@ def get_resp_message(source_msg):
     elif request_msg_type == 'event':
         request_msg_event = request_msg.event
         if request_msg_event == 'subscribe':
-            # 用户关注后，登录用户信息
-            user = get_user_info_by_openid(openid)
-            db.session.add(user)
-            db.session.commit()
+            # 用户关注后，登记用户信息
+            try:
+                user = get_user_info_by_openid(openid)
+            except:
+                print('>>>', '获取用户信息失败')
+            else:
+                save_wechat_user(user)
 
             reply = TextReply(content=WECHAT_WELCOME_MSG, message=request_msg)
         elif request_msg_event == 'unsubscribe':
@@ -120,6 +124,27 @@ def get_user_info_by_openid(openid):
     user = client.user.get(openid)
     print('>>>', user)
     return user
+
+
+def save_wechat_user(wechat_user):
+    user = User()
+
+    user.openid = wechat_user.openid
+    user.nickname = wechat_user.nickname
+    user.subscribe = wechat_user.subscribe
+    user.sex = wechat_user.sex
+    user.language = wechat_user.language
+    user.city = wechat_user.city
+    user.province = wechat_user.province
+    user.country = wechat_user.country
+    user.headimgurl = wechat_user.headimgurl
+    user.subscribe_time = wechat_user.subscribe_time
+    user.remark = wechat_user.remark
+    user.groupid = wechat_user.groupid
+    user.tagid_list = ','.join(wechat_user.tagid_list)
+
+    db.session.add(user)
+    db.session.commit()
 
 
 # 添加路由规则
