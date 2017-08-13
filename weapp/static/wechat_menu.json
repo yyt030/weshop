@@ -2,13 +2,13 @@
   "button": [
     {
       "type": "click",
-      "name": "今日歌曲",
-      "key": "V1001_TODAY_MUSIC"
+      "name": "活动",
+      "key": "V1001_TODAY_HUODONG"
     },
     {
       "type": "click",
-      "name": "歌手简介",
-      "key": "V1001_TODAY_SINGER"
+      "name": "拼车",
+      "key": "V1001_TODAY_PINGCHE"
     },
     {
       "name": "菜单",

@@ -19,16 +19,9 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
-def create_wechat_menu():
-    """create wechat menu"""
-    import json
-
-    from wechatpy import WeChatClient
-    from config import Config
-
-    client = WeChatClient(Config.WECHAT_APPID, Config.WECHAT_SECRET)
-    with open(Config.WECHAT_MENU_FILE) as f:
-        client.menu.create(json.load(f))
+def init_wechat():
+    """初始化微信信息，菜单，模板"""
+    pass
 
 
 if __name__ == '__main__':

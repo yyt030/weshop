@@ -82,6 +82,7 @@ class WechatApi(MethodView):
 
 
 def get_resp_message(source_msg):
+    """构造微信公众号返回消息"""
     request_msg = parse_message(source_msg)
     request_msg_type = request_msg.type
     openid = request.args.get('openid', '')
@@ -121,6 +122,7 @@ def get_resp_message(source_msg):
 
 
 def save_wechat_user(wechat_user):
+    """将微信用户入库"""
     user = User()
     user.openid = wechat_user.get('openid')
 
