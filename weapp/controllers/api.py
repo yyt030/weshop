@@ -3,7 +3,7 @@
 
 __author__ = 'yueyt'
 
-from flask import Blueprint, request
+from flask import Blueprint, request, redirect
 from flask.views import MethodView
 from wechatpy import WeChatClient
 from wechatpy import parse_message

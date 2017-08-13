@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {%- block head %}
+        <title>{% block title %}{{ title|default }}{% endblock title %}</title>
+        {%- block metas %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {%- endblock metas %}
+
+        {#        {%- block styles %}#}
+        {#            <!-- Bootstrap -->#}
+        {#            <link href="{{ bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap') }}" rel="stylesheet">#}
+        {#        {%- endblock styles %}#}
+        <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/weui.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/jquery-weui.min.css') }}">
+    {%- endblock head %}
+</head>
+<body>
+{% block navbar %}
+{%- endblock navbar %}
+{% block content -%}
+    {% block content_hd %}
+    {% endblock %}
+    {% block content_bd %}
+    {% endblock %}
+    {#    {% block content_ft %}#}
+    {#        {% include '_footer.html' %}#}
+    {#    {% endblock %}#}
+{%- endblock content %}
+{% block scripts %}
+    <script src="{{ bootstrap_find_resource('jquery.js', cdn='jquery') }}"></script>
+    {#    <script src="{{ bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap') }}"></script>#}
+    <script src="{{ url_for('static',filename='lib/weui/jquery-weui.min.js') }}"></script>
+{%- endblock scripts %}
+</body>
+</html>

@@ -76,4 +76,4 @@ if __name__ == '__main__':
     # add_template()
     # send_template_message()
     # get_all_template()
-    # create_wechat_menu()
+    create_wechat_menu()
