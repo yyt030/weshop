@@ -113,7 +113,10 @@ def get_resp_message(source_msg):
         elif request_msg_event == 'unsubscribe':
             reply = TextReply(content='多谢关注！', message=request_msg)
         elif request_msg_event == 'CLICK':
-            reply = TextReply(content='多谢关注,该菜单还没有实现，敬请期待', message=request_msg)
+            client = WeChatClient(WECHAT_APPID, WECHAT_SECRET)
+            res = client.message.send_text(openid, '该菜单还没有实现，敬请期待')
+            print('>>>', res)
+            reply = EmptyReply()
         else:
             reply = EmptyReply()
     else:
