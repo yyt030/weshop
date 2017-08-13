@@ -112,6 +112,8 @@ def get_resp_message(source_msg):
             reply = TextReply(content=WECHAT_WELCOME_MSG, message=request_msg)
         elif request_msg_event == 'unsubscribe':
             reply = TextReply(content='多谢关注！', message=request_msg)
+        elif request_msg_event == 'CLICK':
+            reply = TextReply(content='多谢关注,该菜单还没有实现，敬请期待', message=request_msg)
         else:
             reply = EmptyReply()
     else:
