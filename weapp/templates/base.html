@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}凑单吧{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <!-- head 中 -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/weui.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/jquery-weui.min.css') }}">
+{% endblock %}
+
+{% block navbar %}
+    {% include '_search.html' %}
+{% endblock %}
+
+{% block content %}
+    {% block content_hd %}
+    {% endblock %}
+    {% block content_bd %}
+    {% endblock %}
+    {% block content_ft %}
+        {% include '_footer.html' %}
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- body 最后 -->
+    <script src="{{ url_for('static',filename='lib/weui/jquery-weui.min.js') }}"></script>
+{% endblock %}

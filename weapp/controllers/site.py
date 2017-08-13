@@ -3,12 +3,16 @@
 
 __author__ = 'yueyt'
 
-from flask import Blueprint,request
+from flask import Blueprint, render_template, redirect
 
 bp = Blueprint('site', __name__)
 
 
-@bp.route('/',methods=['GET','POST'])
+@bp.route('/')
 def index():
-    print('>>>>', request.data)
-    return 'hello world'
+    return render_template('index.html')
+
+
+@bp.route('/list')
+def list():
+    return redirect('www.baidu.com')

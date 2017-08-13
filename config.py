@@ -26,6 +26,8 @@ WECHAT_WELCOME_MSG = '''
 
 
 class Config(object):
+    BOOTSTRAP_SERVE_LOCAL = True
+
     @classmethod
     def init_app(cls, app):
         pass

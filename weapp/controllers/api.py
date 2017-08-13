@@ -21,7 +21,7 @@ bp = Blueprint('api', __name__)
 
 class WechatApi(MethodView):
     def get(self):
-        # get var from request args
+        # get var from request args, 微信接入
         signature = request.args.get('signature', '')
         timestamp = request.args.get('timestamp', '')
         nonce = request.args.get('nonce', '')
@@ -39,6 +39,7 @@ class WechatApi(MethodView):
             return echostr
 
     def post(self):
+        """被动接受消息"""
         signature = request.args.get('signature', '')
         timestamp = request.args.get('timestamp', '')
         nonce = request.args.get('nonce', '')
@@ -113,9 +114,6 @@ def get_resp_message(source_msg):
         elif request_msg_event == 'unsubscribe':
             reply = TextReply(content='多谢关注！', message=request_msg)
         elif request_msg_event == 'CLICK':
-            client = WeChatClient(WECHAT_APPID, WECHAT_SECRET)
-            res = client.message.send_text(openid, '该菜单还没有实现，敬请期待')
-            print('>>>', res)
             reply = EmptyReply()
         else:
             reply = EmptyReply()

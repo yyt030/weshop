@@ -4,11 +4,13 @@
 __author__ = 'yueyt'
 
 from flask import Flask, request, abort
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
 from config import config
 
 db = SQLAlchemy()
+bootstrap = Bootstrap()
 
 
 def create_app(config_name):
@@ -18,6 +20,7 @@ def create_app(config_name):
 
     # init app
     db.init_app(app)
+    bootstrap.init_app(app)
 
     # blueprint
     register_blueprint(app)
