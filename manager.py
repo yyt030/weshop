@@ -24,5 +24,13 @@ def init_wechat():
     pass
 
 
+@manager.command
+def init_data():
+    from weapp.models.user import User
+    from weapp.models.order import Order
+    User.generate_fake()
+    Order.generate_fake()
+
+
 if __name__ == '__main__':
     manager.run()

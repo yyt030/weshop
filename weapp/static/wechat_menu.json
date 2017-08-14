@@ -2,12 +2,12 @@
   "button": [
     {
       "type": "view",
-      "name": "活动",
-      "url": "http://www.coudanba.cn"
+      "name": "凑单",
+      "url": "http://shop.coudanba.cn"
     },
     {
       "type": "click",
-      "name": "拼车",
+      "name": "活动",
       "key": "V1001_TODAY_PINGCHE"
     },
     {

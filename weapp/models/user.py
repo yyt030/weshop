@@ -35,3 +35,28 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {}-{}: {}>'.format(id, self.openid, self.username)
+
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import uuid
+        import forgery_py
+        from sqlalchemy.exc import IntegrityError
+
+        seed()
+        for i in range(count):
+            u = User(openid=str(uuid.uuid4())[:28], email=forgery_py.email.address(),
+                     nickname=forgery_py.name.full_name(),
+                     subscribe=randint(0, 1))
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+
+
+if __name__ == '__main__':
+    import uuid
+
+    aa = uuid.uuid4()
+    print(aa, type(aa), str(aa)[:28])
