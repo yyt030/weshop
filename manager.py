@@ -22,8 +22,10 @@ manager.add_command('db', MigrateCommand)
 def init_test_data():
     """导入测试数据"""
     from weapp.models.user import User
+    from weapp.models.activity import Activity
     from weapp.models.order import Order
     User.generate_fake()
+    Activity.generate_fake()
     Order.generate_fake()
 
 
