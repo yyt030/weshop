@@ -19,13 +19,8 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
-def init_wechat():
-    """初始化微信信息，菜单，模板"""
-    pass
-
-
-@manager.command
-def init_data():
+def init_test_data():
+    """导入测试数据"""
     from weapp.models.user import User
     from weapp.models.order import Order
     User.generate_fake()
