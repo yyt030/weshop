@@ -18,7 +18,7 @@ class Activity(db.Model):
     qty_max = db.Column(db.SmallInteger, default=100)
     remark = db.Column(db.Text)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    owner = db.relationship('User', backref='activities', lazy='dynamic')
+    owner = db.relationship('User', backref=db.backref('activities'))
     headimgurl = db.Column(db.String(128))
 
     def __repr__(self):

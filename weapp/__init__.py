@@ -44,7 +44,7 @@ def register_error_handle(app):
 
 def register_blueprint(app):
     from weapp.controllers import site, api
-    app.register_blueprint(site.bp, url_prefix='/')
+    app.register_blueprint(site.bp)
     app.register_blueprint(api.bp, url_prefix='/interface/')
 
     pass

@@ -1,59 +1,15 @@
 <div class="weui-cells">
-    <a class="weui-cell weui-cell_access" href="http://www.baidu.com">
-        <div class="weui-cell__hd"><img
-                src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
-        </div>
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-    </a>
-    <a class="weui-cell weui-cell-access" href="http://www.baidu.com">
-        <div class="weui-cell__hd"><img
-                src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
-        </div>
-        <div class="weui-cell__bd">
-            <p>标题文字</p>
-        </div>
-        <div class="weui-cell__ft">说明文字</div>
-    </a>
-    <a class="weui-cell weui-cell_access" href="http://www.baidu.com">
-        <div class="weui-cell__hd"><img
-                src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
-        </div>
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-    </a>
-    <a class="weui-cell weui-cell-access" href="http://www.baidu.com">
-        <div class="weui-cell__hd"><img
-                src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
-        </div>
-        <div class="weui-cell__bd">
-            <p>标题文字</p>
-        </div>
-        <div class="weui-cell__ft">说明文字</div>
-    </a>
-    <a class="weui-cell weui-cell_access" href="http://www.baidu.com">
-        <div class="weui-cell__hd"><img
-                src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
-        </div>
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-    </a>
-    <a class="weui-cell weui-cell-access" href="http://www.baidu.com">
-        <div class="weui-cell__hd"><img
-                src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
-        </div>
-        <div class="weui-cell__bd">
-            <p>标题文字</p>
-        </div>
-        <div class="weui-cell__ft">说明文字</div>
-    </a>
+    {% for activity in activities %}
+        <a class="weui-cell weui-cell_access" href="{{ url_for('site.detail',id=activity.id) }}">
+            <div class="weui-cell__hd"><img
+                    src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=452055286,1600651852&fm=26&gp=0.jpg">
+            </div>
+            <div class="weui-cell__bd">
+                <p>{{ activity.title }}</p>
+            </div>
+            <div class="weui-cell__ft">
+                {{ activity.price }}{{ activity.remark }}
+            </div>
+        </a>
+    {% endfor %}
 </div>

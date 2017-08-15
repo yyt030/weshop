@@ -1,32 +1,61 @@
-{% extends "bootstrap/base.html" %}
+<html>
+<head>
+    <title>凑单吧</title>
+    {%- block metas %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    {%- endblock metas %}
 
-{% block title %}凑单吧{% endblock %}
+    {%- block styles %}
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/th.jpg') }}"
+              type="image/x-icon">
+        <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/weui.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/jquery-weui.min.css') }}">
+    {%- endblock styles %}
+</head>
+<body>
+{% block body -%}
+    {% block navbar %}
 
-{% block head %}
-    {{ super() }}
-    <!-- head 中 -->
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/weui.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='lib/weui/jquery-weui.min.css') }}">
-{% endblock %}
+    {%- endblock navbar %}
+    {% block content -%}
+        <div class="weui-tab">
+            <div class="weui-tab__bd">
+                <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                    {% block content_bd %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <a href="#tab1" class="weui-tabbar__item">
+                    <span class="weui-badge" style="position: absolute;top: -.2em;right;">8</span>
+                    <div class="weui-tabbar__icon">
+                        <img src="{{ url_for('static',filename='img/icon_nav_article.png') }}" alt="">
+                    </div>
+                    <p class="weui-tabbar__label">凑单</p>
+                </a>
+                <a href="#tab2" class="weui-tabbar__item weui-bar__item--on">
 
-{% block navbar %}
-    {% include '_search.html' %}
-{% endblock %}
+                    <div class="weui-tabbar__icon">
+                        <img src="{{ url_for('static',filename='img/icon_nav_button.png') }}" alt="">
+                    </div>
+                    <p class="weui-tabbar__label">活动</p>
+                </a>
+                <a href="#tab3" class="weui-tabbar__item">
+                    <div class="weui-tabbar__icon">
+                        <img src="{{ url_for('static',filename='img/icon_nav_cell.png') }}" alt="">
+                    </div>
+                    <p class="weui-tabbar__label">我</p>
+                </a>
+            </div>
+        </div>
+    {%- endblock content %}
 
-{% block content %}
-    {% block content_hd %}
-    {% endblock %}
-    {% block content_bd %}
-    {% endblock %}
-    {#    {% block content_ft %}#}
-    {#        {% include '_footer.html' %}#}
-    {#    {% endblock %}#}
-{% endblock %}
-
-{% block scripts %}
-    {{ super() }}
-    <!-- body 最后 -->
-    <script src="{{ url_for('static',filename='lib/weui/jquery-weui.min.js') }}"></script>
-{% endblock %}
+    {% block scripts %}
+        <script src="{{ bootstrap_find_resource('jquery.js', cdn='jquery') }}"></script>
+        <script src="{{ url_for('static',filename='lib/weui/jquery-weui.min.js') }}"></script>
+    {%- endblock scripts %}
+{%- endblock body %}
+</body>
+</html>
