@@ -3,7 +3,7 @@
 
 __author__ = 'yueyt'
 
-from  datetime import datetime
+from datetime import datetime
 
 from weapp import db
 
@@ -34,7 +34,7 @@ class User(db.Model):
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def __repr__(self):
-        return '<User {}-{}: {}>'.format(id, self.openid, self.username)
+        return '<{}: {}-{}>'.format(self.__class__.__name__, self.id, self.username)
 
     @staticmethod
     def generate_fake(count=100):

@@ -7,8 +7,8 @@ from weapp import db
 
 
 class OrderStatus(object):
-    INIT = 0x01
-    DONE = 0x02
+    INIT = 0
+    DONE = 1
 
 
 class Order(db.Model):
@@ -16,11 +16,11 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    owner = db.relationship('User', backref='')
+    owner = db.relationship('User', backref='orders', lazy='dynamic')
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
-    activity = db.relationship('Activity')
+    activity = db.relationship('Activity', backref='orders', lazy='dynamic')
     number = db.Column(db.Integer, default=1, nullable=False)
-    status = db.Column(db.Enum((OrderStatus.INIT, OrderStatus.DONE)))
+    status = db.Column(db.SmallInteger, nullable=False)
 
     def __repr__(self):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)
