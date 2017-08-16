@@ -38,7 +38,7 @@ class User(db.Model):
 
     @staticmethod
     def generate_fake(count=100):
-        from random import seed, randint
+        from random import seed
         import uuid
         import forgery_py
         from sqlalchemy.exc import IntegrityError
@@ -47,7 +47,7 @@ class User(db.Model):
         for i in range(count):
             u = User(openid=str(uuid.uuid4())[:28], email=forgery_py.email.address(),
                      nickname=forgery_py.name.full_name(),
-                     subscribe=randint(0, 1))
+                     subscribe=1)
             db.session.add(u)
             try:
                 db.session.commit()

@@ -1,11 +1,11 @@
 <div class="weui-cells">
     {% for activity in activities %}
         <a class="weui-cell weui-cell_access" href="{{ url_for('site.detail',id=activity.id) }}">
-            <div class="weui-cell__hd"><img
-                    src="{{ url_for('static',filename='img/th.jpg') }}">
-            </div>
+            {#            <div class="weui-cell__hd"><img#}
+            {#                    src="{{ url_for('static',filename='img/th.jpg') }}">#}
+            {#            </div>#}
             <div class="weui-cell__bd">
-                <p>{{ activity.title[:10] }}</p>
+                <p>{{ activity.title }}</p>
             </div>
             <div class="weui-cell__ft">
                 {{ activity.price }}

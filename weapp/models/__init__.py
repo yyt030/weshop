@@ -3,4 +3,4 @@
 
 __author__ = 'yueyt'
 
-from . import user, order, activity
+from . import user, order, activity, product

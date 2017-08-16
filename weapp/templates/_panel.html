@@ -1,0 +1,17 @@
+<div class="weui-panel weui-panel_access">
+    <div class="weui-panel__hd">凑单列表</div>
+    {% for activity in activities %}
+        <div class="weui-panel__bd">
+            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" src="{{ url_for('static',filename='img/xigua.jpg') }}">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{ activity.title }}</h4>
+                    <p class="weui-media-box__desc">
+                        本活动由{{ activity.owner.nickname }}于{{ activity.create_timestamp }}发起</p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>

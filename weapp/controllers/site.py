@@ -21,7 +21,7 @@ def list():
     return redirect('www.baidu.com')
 
 
-@bp.route('/activity/<int:id>')
+@bp.route('/activities/<int:id>')
 def detail(id):
     activity = Activity.query.get_or_404(id)
     return render_template('detail.html', activity=activity)

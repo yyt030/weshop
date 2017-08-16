@@ -24,9 +24,11 @@ def init_test_data():
     from weapp.models.user import User
     from weapp.models.activity import Activity
     from weapp.models.order import Order
+    from weapp.models.product import Product
     User.generate_fake()
     Activity.generate_fake()
-    Order.generate_fake()
+    Product.generate_fake()
+    #Order.generate_fake()
 
 
 if __name__ == '__main__':
