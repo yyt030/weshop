@@ -16,9 +16,9 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    owner = db.relationship('User', backref='orders')
+    owner = db.relationship('User', backref=db.backref('orders',lazy='dynamic'))
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
-    activity = db.relationship('Activity', backref='orders')
+    activity = db.relationship('Activity', backref=db.backref('orders', lazy='dynamic'))
     number = db.Column(db.Integer, default=1, nullable=False)
     status = db.Column(db.SmallInteger, nullable=False)
 

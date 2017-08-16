@@ -12,13 +12,13 @@ class Activity(db.Model):
     __tablename__ = 'activities'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    title = db.Column(db.String(128), nullable=False)
+    title = db.Column(db.String(32), nullable=False)
     price = db.Column(db.Float(precision=2))
     qty_min = db.Column(db.SmallInteger, default=1)
     qty_max = db.Column(db.SmallInteger, default=100)
     remark = db.Column(db.Text)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    owner = db.relationship('User', backref=db.backref('activities'))
+    owner = db.relationship('User', backref=db.backref('activities', lazy='dynamic'))
     headimgurl = db.Column(db.String(128))
 
     def __repr__(self):
@@ -34,7 +34,7 @@ class Activity(db.Model):
         user_count = User.query.count()
         for i in range(count):
             u = User.query.offset(randint(0, user_count - 1)).first()
-            o = Activity(title=forgery_py.basic.text(length=100), price=randint(1, 100), qty_min=randint(1, 10),
+            o = Activity(title=forgery_py.basic.text(length=32), price=randint(1, 100), qty_min=randint(1, 10),
                          qty_max=randint(1, 100), remark=forgery_py.name.title(), owner_id=u.id)
             db.session.add(o)
             try:
