@@ -34,7 +34,7 @@ class Activity(db.Model):
         user_count = User.query.count()
         for i in range(count):
             u = User.query.offset(randint(0, user_count - 1)).first()
-            o = Activity(title=forgery_py.name.title(), price=randint(1, 100), qty_min=randint(1, 10),
+            o = Activity(title=forgery_py.basic.text(length=100), price=randint(1, 100), qty_min=randint(1, 10),
                          qty_max=randint(1, 100), remark=forgery_py.name.title(), owner_id=u.id)
             db.session.add(o)
             try:
