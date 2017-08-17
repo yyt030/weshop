@@ -1,52 +1,30 @@
 {% extends 'layout.html' %}
 
 {% block content_bd %}
-    <div class="page__hd">
-        <h1 class="page__title">Uploader</h1>
-        <p class="page__desc">上传组件，一般配合<a class="link" href="#gallery">组件Gallery</a>来使用。</p>
-    </div>
-    <div class="page__bd">
-        <div class="weui-gallery" id="gallery" style="opacity: 0; display: none;">
-            <span class="weui-gallery__img" id="galleryImg" style="background-image:url(./images/pic_160.png)"></span>
-            <div class="weui-gallery__opr">
-                <a href="javascript:" class="weui-gallery__del">
-                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
-                </a>
+    <div class="weui-form-preview"></div>
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__hd">
+            <label class="weui-form-preview__label">付款金额</label>
+            <em class="weui-form-preview__value">¥2400.00</em>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">商品</label>
+                <span class="weui-form-preview__value">电动打蛋机</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">标题标题</label>
+                <span class="weui-form-preview__value">名字名字名字</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">标题标题</label>
+                <span class="weui-form-preview__value">很长很长的名字很长很长的名字很长很长的名字很长很长的名字很长很长的名字</span>
             </div>
         </div>
-
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <div class="weui-uploader">
-                        <div class="weui-uploader__hd">
-                            <p class="weui-uploader__title">图片上传</p>
-                            <div class="weui-uploader__info">0/2</div>
-                        </div>
-                        <div class="weui-uploader__bd">
-                            <ul class="weui-uploader__files" id="uploaderFiles">
-                                <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
-                                <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
-                                <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
-                                <li class="weui-uploader__file weui-uploader__file_status"
-                                    style="background-image:url(./images/pic_160.png)">
-                                    <div class="weui-uploader__file-content">
-                                        <i class="weui-icon-warn"></i>
-                                    </div>
-                                </li>
-                                <li class="weui-uploader__file weui-uploader__file_status"
-                                    style="background-image:url(./images/pic_160.png)">
-                                    <div class="weui-uploader__file-content">50%</div>
-                                </li>
-                            </ul>
-                            <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
-                                       multiple="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="weui-form-preview__ft">
+            <a class="weui-form-preview__btn weui-form-preview__btn_default" href="javascript:">辅助操作</a>
+            <button type="submit" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">操作
+            </button>
         </div>
     </div>
 {% endblock %}
