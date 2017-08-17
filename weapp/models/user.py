@@ -9,6 +9,7 @@ from weapp import db
 
 
 class User(db.Model):
+    """用户"""
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)

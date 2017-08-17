@@ -10,7 +10,7 @@ from weapp.models.user import User
 
 
 class Activity(db.Model):
-    """发起活动"""
+    """由组织人发起的活动"""
     __tablename__ = 'activities'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)

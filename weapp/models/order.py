@@ -12,6 +12,7 @@ class OrderStatus(object):
 
 
 class Order(db.Model):
+    """订单：购买人下的订单"""
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True)

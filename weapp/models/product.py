@@ -14,6 +14,7 @@ orderproducts = db.Table('orderproducts',
 
 
 class Product(db.Model):
+    """商品：活动下的商品"""
     __tablename__ = 'products'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
