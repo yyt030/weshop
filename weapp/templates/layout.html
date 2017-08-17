@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="weui-navbar">
+        <div class="weui-navbar__item weui-bar__item--on weui-search-bar" id="searchBar">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索"
+                           required="">
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText">
+                    <i class="weui-icon-search"></i>
+                    <span>搜索</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+    </div>
+    <div class="weui-tab">
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="weui-cells"></div>
+                {% block content_bd %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="weui-tabbar">
+            <a href="#tab1" class="weui-tabbar__item">
+                <span class="weui-badge" style="position: absolute;top: -.2em;right;">8</span>
+                <div class="weui-tabbar__icon">
+                    <img src="{{ url_for('static',filename='img/icon_nav_article.png') }}" alt="">
+                </div>
+                <p class="weui-tabbar__label">凑单</p>
+            </a>
+            <a href="#tab2" class="weui-tabbar__item weui-bar__item--on">
+
+                <div class="weui-tabbar__icon">
+                    <img src="{{ url_for('static',filename='img/icon_nav_button.png') }}" alt="">
+                </div>
+                <p class="weui-tabbar__label">活动</p>
+            </a>
+            <a href="#tab3" class="weui-tabbar__item">
+                <div class="weui-tabbar__icon">
+                    <img src="{{ url_for('static',filename='img/icon_nav_cell.png') }}" alt="">
+                </div>
+                <p class="weui-tabbar__label">我</p>
+            </a>
+        </div>
+    </div>
+{% endblock %}
