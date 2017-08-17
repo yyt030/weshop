@@ -39,24 +39,27 @@ class User(db.Model):
 
     @staticmethod
     def generate_fake(count=100):
-        from random import seed
+        from random import seed, choice
         import uuid
         import forgery_py
         from sqlalchemy.exc import IntegrityError
+        from config import basedir
+        import os
 
         seed()
-        for i in range(count):
-            u = User(openid=str(uuid.uuid4())[:28], email=forgery_py.email.address(),
-                     nickname=forgery_py.name.full_name(), subscribe=1)
-            db.session.add(u)
-            try:
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
+        with open(os.path.join(basedir, 'tests/words')) as f:
+            words_list = f.read().split()
+            for i in range(count):
+                u = User(openid=str(uuid.uuid4())[:28], email=forgery_py.email.address(),
+                         nickname=choice(words_list), subscribe=1)
+                db.session.add(u)
+                try:
+                    db.session.commit()
+                except IntegrityError:
+                    db.session.rollback()
 
 
 if __name__ == '__main__':
-    import uuid
-
-    aa = uuid.uuid4()
-    print(aa, type(aa), str(aa)[:28])
+    # from config import basedir
+    # import os
+    pass

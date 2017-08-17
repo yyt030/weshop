@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block content_bd %}
+    <div class="weui-cells">
+        {% for activity in activities %}
+            <a class="weui-cell weui-cell_access" href="{{ url_for('site.activity',id=activity.id) }}">
+                <div class="weui-cell__hd"><img
+                        src="{{ url_for('static',filename='img/th.jpg') }}">
+                </div>
+                <div class="weui-cell__bd">
+                    <p>{{ activity.title }}</p>
+                </div>
+                <div class="weui-cell__ft">
+                    {{ activity.price }}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
