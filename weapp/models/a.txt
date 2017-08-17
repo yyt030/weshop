@@ -1,6 +1,0 @@
-活动发起人：user 1 -> activity n -> product nn
-
-
-活动参与人：　user 1 -> order m ->　product n
-
-

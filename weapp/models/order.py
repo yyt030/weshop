@@ -3,21 +3,12 @@
 
 __author__ = 'yueyt'
 
-from datetime import datetime
-
 from weapp import db
 
 
 class OrderStatus(object):
     INIT = 0
     DONE = 1
-
-
-class OrderProduct(db.Model):
-    __tablename__ = 'OrderProducts'
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class Order(db.Model):
@@ -28,11 +19,6 @@ class Order(db.Model):
     owner = db.relationship('User', backref=db.backref('orders', lazy='dynamic'))
     number = db.Column(db.Integer, default=1, nullable=False)
     status = db.Column(db.SmallInteger, default=1, nullable=False)
-
-    products = db.relationship('Product', secondary='OrderProduct',
-                               foreign_keys=[OrderProduct.order_id],
-                               backref=db.backref('orders', lazy='dynamic')
-                               )
 
     def __repr__(self):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)
@@ -55,7 +41,6 @@ class Order(db.Model):
 
             o.products.append(p)
             db.session.add(o)
-
             try:
                 db.session.commit()
             except IntegrityError:

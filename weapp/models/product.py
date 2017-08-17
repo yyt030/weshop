@@ -3,7 +3,14 @@
 
 __author__ = 'yueyt'
 
+import datetime
+
 from weapp import db
+
+orderproducts = db.Table('orderproducts',
+                         db.Column('order_id', db.Integer, db.ForeignKey('orders.id'), primary_key=True),
+                         db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+                         db.Column('timestamp', db.DateTime, default=datetime.datetime.utcnow))
 
 
 class Product(db.Model):
@@ -16,6 +23,8 @@ class Product(db.Model):
     qty_max = db.Column(db.SmallInteger, default=100)
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
     activity = db.relationship('Activity', backref=db.backref('products', lazy='dynamic'))
+
+    orders = db.relationship('Order', secondary=orderproducts, backref=db.backref('products', lazy=True))
 
     @staticmethod
     def generate_fake(count=100):

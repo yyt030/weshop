@@ -46,8 +46,7 @@ class User(db.Model):
         seed()
         for i in range(count):
             u = User(openid=str(uuid.uuid4())[:28], email=forgery_py.email.address(),
-                     nickname=forgery_py.name.full_name(),
-                     subscribe=1)
+                     nickname=forgery_py.name.full_name(), subscribe=1)
             db.session.add(u)
             try:
                 db.session.commit()

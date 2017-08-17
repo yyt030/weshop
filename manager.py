@@ -28,7 +28,7 @@ def init_test_data():
     User.generate_fake()
     Activity.generate_fake()
     Product.generate_fake()
-    #Order.generate_fake()
+    Order.generate_fake()
 
 
 if __name__ == '__main__':
