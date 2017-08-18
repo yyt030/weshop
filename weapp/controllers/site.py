@@ -45,10 +45,16 @@ def product(id):
 @bp.route('/orders')
 def orders():
     orders = Order.query.all()
-    return render_template('orders.html', orders=orders)
+    print('>>>', orders)
+    return render_template('orders.html', orders1=orders)
 
 
 @bp.route('/orders/<int:id>')
 def order(id):
     order = Order.query.get_or_404(id)
     return render_template('order.html', order=order)
+
+
+@bp.route('/ok')
+def ok():
+    return render_template('ok.html')

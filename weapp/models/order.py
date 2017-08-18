@@ -19,6 +19,8 @@ class Order(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     owner = db.relationship('User', backref=db.backref('orders', lazy='dynamic'))
     number = db.Column(db.Integer, default=1, nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    product = db.relationship('Product', backref=db.backref('orders', lazy='dynamic'))
     status = db.Column(db.SmallInteger, default=1, nullable=False)
 
     def __repr__(self):
@@ -38,9 +40,8 @@ class Order(db.Model):
         for i in range(count):
             u = User.query.offset(randint(0, user_count - 1)).first()
             p = Product.query.offset(randint(0, product_count - 1)).first()
-            o = Order(owner_id=u.id, number=randint(1, 100), status=1)
+            o = Order(owner_id=u.id, number=randint(1, 100), status=1, product_id=p.id)
 
-            o.products.append(p)
             db.session.add(o)
             try:
                 db.session.commit()

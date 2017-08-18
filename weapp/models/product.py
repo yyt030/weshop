@@ -3,15 +3,14 @@
 
 __author__ = 'yueyt'
 
-import datetime
-
 from weapp import db
 
-orderproducts = db.Table('orderproducts',
-                         db.Column('order_id', db.Integer, db.ForeignKey('orders.id'), primary_key=True),
-                         db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
-                         db.Column('timestamp', db.DateTime, default=datetime.datetime.utcnow))
 
+# orderproducts = db.Table('orderproducts',
+#                          db.Column('order_id', db.Integer, db.ForeignKey('orders.id'), primary_key=True),
+#                          db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+#                          db.Column('timestamp', db.DateTime, default=datetime.datetime.utcnow))
+#
 
 class Product(db.Model):
     """商品：活动下的商品"""
@@ -26,7 +25,10 @@ class Product(db.Model):
     activity = db.relationship('Activity', backref=db.backref('products', lazy='dynamic'))
     remark = db.Column(db.String(128))
 
-    orders = db.relationship('Order', secondary=orderproducts, backref=db.backref('products', lazy=True))
+    # orders = db.relationship('Order', secondary=orderproducts, backref=db.backref('products', lazy=True))
+
+    def __repr__(self):
+        return '<{}: {}-{}>'.format(self.__class__.__name__, self.id, self.username)
 
     @staticmethod
     def generate_fake(count=100):

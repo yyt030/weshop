@@ -20,35 +20,40 @@
             </div>
         </div>
     {% endblock %}
-    <div class="weui-tab">
-        <div class="weui-tab__bd">
-            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-                <div class="weui-cells"></div>
-                {% block content_bd %}
-                {% endblock %}
+    {% block menu %}
+        <div class="weui-tab">
+            <div class="weui-tab__bd">
+                <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                    <div class="weui-cells"></div>
+                    {% block content_bd %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <a href="{{ url_for('site.index') }}"
+                   class="weui-tabbar__item {% if  menu_tab_on == 'tab1' %} weui-bar__item--on{% endif %}">
+                    {#                    <span class="weui-badge" style="position: absolute;top: -.2em;right;">8</span>#}
+                    <div class="weui-tabbar__icon">
+                        <img src="{{ url_for('static',filename='img/icon_nav_cell.png') }}" alt="">
+                    </div>
+                    <p class="weui-tabbar__label">凑单</p>
+                </a>
+                <a href="{{ url_for('site.index') }}"
+                   class="weui-tabbar__item {% if  menu_tab_on == 'tab2' %} weui-bar__item--on{% endif %}">
+
+                    <div class="weui-tabbar__icon">
+                        <img src="{{ url_for('static',filename='img/icon_nav_button.png') }}" alt="">
+                    </div>
+                    <p class="weui-tabbar__label">活动</p>
+                </a>
+                <a href="{{ url_for('site.orders') }}"
+                   class="weui-tabbar__item {% if  menu_tab_on == 'tab3' %} weui-bar__item--on{% endif %}">
+                    <div class="weui-tabbar__icon">
+                        <img src="{{ url_for('static',filename='img/icon_nav_msg.png') }}" alt="">
+                    </div>
+                    <p class="weui-tabbar__label">我</p>
+                </a>
             </div>
         </div>
-        <div class="weui-tabbar">
-            <a href="#tab1" class="weui-tabbar__item">
-                <span class="weui-badge" style="position: absolute;top: -.2em;right;">8</span>
-                <div class="weui-tabbar__icon">
-                    <img src="{{ url_for('static',filename='img/icon_nav_article.png') }}" alt="">
-                </div>
-                <p class="weui-tabbar__label">凑单</p>
-            </a>
-            <a href="#tab2" class="weui-tabbar__item weui-bar__item--on">
-
-                <div class="weui-tabbar__icon">
-                    <img src="{{ url_for('static',filename='img/icon_nav_button.png') }}" alt="">
-                </div>
-                <p class="weui-tabbar__label">活动</p>
-            </a>
-            <a href="#tab3" class="weui-tabbar__item">
-                <div class="weui-tabbar__icon">
-                    <img src="{{ url_for('static',filename='img/icon_nav_cell.png') }}" alt="">
-                </div>
-                <p class="weui-tabbar__label">我</p>
-            </a>
-        </div>
-    </div>
+    {% endblock %}
 {% endblock %}

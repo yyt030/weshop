@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
+{% block search %}{% endblock %}
 
 {% block content_bd %}
-    <div class="weui-form-preview"></div>
+    <div class="weui-cells__title">商品详情</div>
     <div class="weui-form-preview">
         <div class="weui-form-preview__hd">
             <label class="weui-form-preview__label">付款金额</label>
@@ -21,10 +22,17 @@
                 <span class="weui-form-preview__value">很长很长的名字很长很长的名字很长很长的名字很长很长的名字很长很长的名字</span>
             </div>
         </div>
-        <div class="weui-form-preview__ft">
-            <a class="weui-form-preview__btn weui-form-preview__btn_default" href="javascript:">辅助操作</a>
-            <button type="submit" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">操作
-            </button>
+    </div>
+    <div class="weui-cells__title">购买</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">预定单数</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" pattern="[0-9]*" placeholder="输入预定单数">
+            </div>
         </div>
+    </div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="{{ url_for('site.ok') }}" id="showTooltips">确定</a>
     </div>
 {% endblock %}
