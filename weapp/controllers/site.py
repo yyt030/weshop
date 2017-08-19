@@ -20,13 +20,12 @@ def index():
 @bp.route('/activities')
 def activities():
     activities = Activity.query.all()
-    return render_template('activities.html', activities=activities)
+    return render_template('activities.html', activities=activities[:10])
 
 
 @bp.route('/activities/<int:id>')
 def activity(id):
     activity = Activity.query.get_or_404(id)
-    print('>>>', activity)
     return render_template('activity.html', activity=activity)
 
 
@@ -45,7 +44,6 @@ def product(id):
 @bp.route('/orders')
 def orders():
     orders = Order.query.all()
-    print('>>>', orders)
     return render_template('orders.html', orders1=orders)
 
 

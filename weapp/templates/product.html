@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+
 {% block search %}{% endblock %}
 
 {% block content_bd %}
@@ -6,23 +7,20 @@
     <div class="weui-form-preview">
         <div class="weui-form-preview__hd">
             <label class="weui-form-preview__label">付款金额</label>
-            <em class="weui-form-preview__value">¥2400.00</em>
+            <em class="weui-form-preview__value">¥{{ product.price }}</em>
         </div>
         <div class="weui-form-preview__bd">
             <div class="weui-form-preview__item">
                 <label class="weui-form-preview__label">商品</label>
-                <span class="weui-form-preview__value">电动打蛋机</span>
+                <span class="weui-form-preview__value">{{ product.name }}</span>
             </div>
             <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">标题标题</label>
-                <span class="weui-form-preview__value">名字名字名字</span>
-            </div>
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">标题标题</label>
-                <span class="weui-form-preview__value">很长很长的名字很长很长的名字很长很长的名字很长很长的名字很长很长的名字</span>
+                <label class="weui-form-preview__label">商品说明</label>
+                <span class="weui-form-preview__value">{{ product.remark }}</span>
             </div>
         </div>
     </div>
+    <div class="weui-cells__title"></div>
     <div class="weui-cells__title">购买</div>
     <div class="weui-cells weui-cells_form">
         <div class="weui-cell">
@@ -33,6 +31,6 @@
         </div>
     </div>
     <div class="weui-btn-area">
-        <a class="weui-btn weui-btn_primary" href="{{ url_for('site.ok') }}" id="showTooltips">确定</a>
+        <a class="weui-btn weui-btn_primary" href="{{ url_for('site.ok') }}" id="showTooltips">预定</a>
     </div>
 {% endblock %}

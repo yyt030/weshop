@@ -1,14 +1,16 @@
 {% extends 'layout.html' %}
+{% set menu_tab_on = 'tab1' %}
 
+{% block search %}{% endblock %}
 
 {% block content_bd %}
     <div class="weui-panel weui-panel_access">
-        <div class="weui-panel__hd"></div>
+        <div class="weui-panel__hd">活动详情</div>
         <div class="weui-panel__hd">
             <p>活动发起人：{{ activity.owner.nickname }}</p>
             <p>活动团购日期：{{ activity.create_timestamp }}</p>
             <p>
-                活动说明：{{ activity.remark }}{{ activity.remark }}{{ activity.remark }}{{ activity.remark }}{{ activity.remark }}
+                活动说明：{{ activity.remark *50 }}
             </p>
         </div>
         <div class="weui-panel__bd">
