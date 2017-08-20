@@ -13,6 +13,8 @@ class Store(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
+    price_source = db.Column(db.Float(.2), nullable=True)
+    price_advice = db.Column(db.Float(.2), nullable=True)
     remark = db.Column(db.String(64))
 
     create_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -21,19 +23,16 @@ class Store(db.Model):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)
 
     @staticmethod
-    def generate_fake(count=100):
-        from random import seed, choice
-        from sqlalchemy.exc import IntegrityError
-        import os
-        from config import basedir
-
-        seed()
-        with open(os.path.join(basedir, 'tests/words')) as f:
-            words_list = f.read().split()
-            for i in range(count):
-                s = Store(name=choice(words_list), remark=choice(words_list))
-                db.session.add(s)
-                try:
-                    db.session.commit()
-                except IntegrityError:
-                    db.session.rollback()
+    def generate_fake():
+        pass
+        s1 = Store(name='新西兰爱妃', price_source='238', price_advice='195', remark='新西兰爱妃5kg礼盒装，妃你莫属的浓甜滋味，原价238，团购价195')
+        s2 = Store(name='美国夏橙', price_source='238', price_advice='195', remark='新西兰爱妃5kg礼盒装，妃你莫属的浓甜滋味，原价238，团购价195')
+        s3 = Store(name='美国恐龙蛋', price_source='238', price_advice='195', remark='新西兰爱妃5kg礼盒装，妃你莫属的浓甜滋味，原价238，团购价195')
+        s4 = Store(name='美国大西梅', price_source='238', price_advice='195', remark='新西兰爱妃5kg礼盒装，妃你莫属的浓甜滋味，原价238，团购价195')
+        s5 = Store(name='美国夏橙', price_source='238', price_advice='195', remark='新西兰爱妃5kg礼盒装，妃你莫属的浓甜滋味，原价238，团购价195')
+        db.session.add(s1)
+        db.session.add(s2)
+        db.session.add(s3)
+        db.session.add(s4)
+        db.session.add(s5)
+        db.session.commit()
