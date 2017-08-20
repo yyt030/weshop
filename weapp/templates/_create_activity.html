@@ -1,0 +1,36 @@
+<div id="full" class="weui-popup__container">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal">
+        <div class="weui-cells__title">创建新活动</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    {{ activity_form.title.label(class="weui-label") }}
+                </div>
+                <div class="weui-cell__bd">
+                    {{ activity_form.title(class="weui-input") }}
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    {{ activity_form.expire_date.label(class="weui-label") }}
+                </div>
+                <div class="weui-cell__bd">
+                    {{ activity_form.expire_date(class="weui-input",type="date") }}
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title">选择参与该活动的商品</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    {{ product_form.name.label(class="weui-label") }}
+                </div>
+                <div class="weui-cell__bd">
+                    {{ product_form.name(class="weui-input",type='text',readonly="") }}
+                </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_primary close-popup">创建</a>
+    </div>
+</div>

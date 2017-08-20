@@ -3,9 +3,13 @@
 
 {% block search %}{% endblock %}
 {% block content_bd %}
-    {% for order in orders %}
-        <div class="weui-cells">
-            <div class="weui-panel__hd">图文组合列表</div>
+    <div class="weui-btn-area">
+        <a href="javascript:;" class="weui-btn weui-btn_primary open-popup" data-target="#full">发起新活动</a>
+        {% include '_create_activity.html' %}
+    </div>
+    <div class="weui-cells">
+        <div class="weui-panel__hd">我的订单</div>
+        {% for order in orders %}
             <a class="weui-cell weui-cell_access" href="{{ url_for('site.product', id=order.product.id) }}">
                 <div class="weui-cell__bd">
                     <p>{{ order.product.name }}</p>
@@ -17,9 +21,7 @@
                     {{ order.number }}
                 </div>
             </a>
-        </div>
-    {% else %}
-        <div class="weui-cell">
+        {% else %}
             <div class="weui-cell weui-cell_access">
                 <div class="icon-box">
                     <p class="weui-icon-info weui-icon_msg-primary"></p>
@@ -28,7 +30,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $("#name").select({
+            min: 1,
+            max: 10,
+            title: "商品",
+            multi: true,
+            items: {{ stores | safe }}
+        });
+    </script>
 {% endblock %}
 

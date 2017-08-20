@@ -22,6 +22,17 @@ class Store(db.Model):
     def __repr__(self):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)
 
+    @property
+    def to_json(self):
+        columns = self.__table__.columns.keys()
+        return {key: getattr(self, key) for key in columns}
+
+    @staticmethod
+    def get_store_list():
+        stores = Store.query.all()
+        return [{'title': '{}-团购价:{}'.format(s.name, s.price_advice), 'value': s.id} for s in
+                stores]
+
     @staticmethod
     def generate_fake():
         pass

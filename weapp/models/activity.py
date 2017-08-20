@@ -18,9 +18,8 @@ class Activity(db.Model):
     remark = db.Column(db.Text)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     owner = db.relationship('User', backref=db.backref('activities', lazy='dynamic'))
-    headimgurl = db.Column(db.String(128))
+    expire_date = db.Column(db.Date, default=datetime.utcnow)
     create_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
 
     def __repr__(self):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)
