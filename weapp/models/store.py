@@ -2,6 +2,8 @@
 # coding: utf-8
 
 __author__ = 'yueyt'
+from datetime import datetime
+
 from weapp import db
 
 
@@ -12,6 +14,8 @@ class Store(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
     remark = db.Column(db.String(64))
+
+    create_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)

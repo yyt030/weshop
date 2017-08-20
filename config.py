@@ -26,7 +26,10 @@ WECHAT_WELCOME_MSG = '''
 
 
 class Config(object):
+    SECRET_KEY = os.urandom(24)
     BOOTSTRAP_SERVE_LOCAL = True
+
+    WTF_CSRF_SECRET_KEY = os.urandom(24)
 
     @classmethod
     def init_app(cls, app):

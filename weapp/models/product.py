@@ -3,6 +3,8 @@
 
 __author__ = 'yueyt'
 
+from datetime import datetime
+
 from weapp import db
 
 
@@ -24,6 +26,8 @@ class Product(db.Model):
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
     activity = db.relationship('Activity', backref=db.backref('products', lazy='dynamic'))
     remark = db.Column(db.String(128))
+
+    create_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # orders = db.relationship('Order', secondary=orderproducts, backref=db.backref('products', lazy=True))
 

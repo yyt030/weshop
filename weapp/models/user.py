@@ -34,6 +34,8 @@ class User(db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
+    create_at = db.Column(db.DateTime, default=datetime.utcnow)
+
     def __repr__(self):
         return '<{}: {}-{}>'.format(self.__class__.__name__, self.id, self.username)
 

@@ -3,6 +3,8 @@
 
 __author__ = 'yueyt'
 
+from datetime import datetime
+
 from weapp import db
 
 
@@ -22,6 +24,7 @@ class Order(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     product = db.relationship('Product', backref=db.backref('orders', lazy='dynamic'))
     status = db.Column(db.SmallInteger, default=1, nullable=False)
+    create_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<{}:{}>'.format(self.__class__.__name__, self.id)

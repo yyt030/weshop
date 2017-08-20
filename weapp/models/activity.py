@@ -19,7 +19,7 @@ class Activity(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     owner = db.relationship('User', backref=db.backref('activities', lazy='dynamic'))
     headimgurl = db.Column(db.String(128))
-    create_timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    create_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 
     def __repr__(self):

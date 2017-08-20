@@ -6,11 +6,13 @@ __author__ = 'yueyt'
 from flask import Flask, request, abort
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 
 from config import config
 
 db = SQLAlchemy()
 bootstrap = Bootstrap()
+csrf = CSRFProtect()
 
 
 def create_app(config_name):
@@ -21,6 +23,7 @@ def create_app(config_name):
     # init app
     db.init_app(app)
     bootstrap.init_app(app)
+    csrf.init_app(app)
 
     # blueprint
     register_blueprint(app)
